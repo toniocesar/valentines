@@ -140,7 +140,7 @@ def display_guess_row(guess, feedback):
     )
 
 # Title
-st.title("❤️ Valentine's Wordle")
+st.title("Wordle da Mari ❤️")
 st.write(f"**Today's Date:** {datetime.now().strftime('%A, %B %d, %Y')}")
 st.divider()
 
