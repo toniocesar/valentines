@@ -9,35 +9,37 @@ st.set_page_config(page_title="Wordle Game", layout="centered")
 # Add responsive CSS for mobile
 st.markdown("""
 <style>
-    /* Mobile responsive styles */
-    @media (max-width: 600px) {
-        .letter-box {
-            padding: 12px !important;
-            font-size: 16px !important;
-            min-width: 40px !important;
-            margin: 2px !important;
-        }
-        [data-testid="column"] {
-            flex: 1 1 auto !important;
-        }
-    }
-    
-    @media (min-width: 601px) {
-        .letter-box {
-            padding: 20px !important;
-            font-size: 24px !important;
-        }
+    .guess-row {
+        display: flex;
+        gap: 4px;
+        justify-content: center;
+        margin-bottom: 8px;
+        flex-wrap: nowrap;
     }
     
     .letter-box {
-        color: white;
-        border-radius: 5px;
-        text-align: center;
-        font-weight: bold;
+        width: 45px;
+        height: 45px;
         display: flex;
         align-items: center;
         justify-content: center;
-        aspect-ratio: 1;
+        color: white;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+    
+    @media (min-width: 600px) {
+        .letter-box {
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+        }
+        
+        .guess-row {
+            gap: 8px;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -122,25 +124,20 @@ def check_guess(guess, target):
 
 # Template for styled letter boxes
 def display_guess_row(guess, feedback):
-    col1, col2, col3, col4, col5 = st.columns(5, gap="small")
-    cols = [col1, col2, col3, col4, col5]
-    
     colors = {
         'green': '#6aaa64',
         'yellow': '#c9b458',
         'gray': '#787c7e'
     }
     
-    for i, (letter, status) in enumerate(zip(guess, feedback)):
-        with cols[i]:
-            st.markdown(
-                f"""
-                <div class='letter-box' style='background-color: {colors[status]};'>
-                    {letter}
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+    letters_html = ""
+    for letter, status in zip(guess, feedback):
+        letters_html += f"<div class='letter-box' style='background-color: {colors[status]};'>{letter}</div>"
+    
+    st.markdown(
+        f"<div class='guess-row'>{letters_html}</div>",
+        unsafe_allow_html=True
+    )
 
 # Title
 st.title("❤️ Valentine's Wordle")
