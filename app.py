@@ -5,11 +5,10 @@ import os
 
 # Set page config
 st.set_page_config(page_title="Wordle Game", layout="centered")
-
 # Load words from CSV
 @st.cache_data
 def load_words():
-    csv_path = os.path.join(os.path.dirname(__file__), "words.csv")
+    csv_path = os.path.join(os.path.dirname(__file__), "words2.csv")
     df = pd.read_csv(csv_path)
     return df
 
