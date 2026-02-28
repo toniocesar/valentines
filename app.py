@@ -5,6 +5,42 @@ import os
 
 # Set page config
 st.set_page_config(page_title="Wordle Game", layout="centered")
+
+# Add responsive CSS for mobile
+st.markdown("""
+<style>
+    /* Mobile responsive styles */
+    @media (max-width: 600px) {
+        .letter-box {
+            padding: 12px !important;
+            font-size: 16px !important;
+            min-width: 40px !important;
+            margin: 2px !important;
+        }
+        [data-testid="column"] {
+            flex: 1 1 auto !important;
+        }
+    }
+    
+    @media (min-width: 601px) {
+        .letter-box {
+            padding: 20px !important;
+            font-size: 24px !important;
+        }
+    }
+    
+    .letter-box {
+        color: white;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1;
+    }
+</style>
+""", unsafe_allow_html=True)
 # Load words from CSV
 @st.cache_data
 def load_words():
@@ -86,7 +122,7 @@ def check_guess(guess, target):
 
 # Template for styled letter boxes
 def display_guess_row(guess, feedback):
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3, col4, col5 = st.columns(5, gap="small")
     cols = [col1, col2, col3, col4, col5]
     
     colors = {
@@ -99,15 +135,7 @@ def display_guess_row(guess, feedback):
         with cols[i]:
             st.markdown(
                 f"""
-                <div style='
-                    background-color: {colors[status]};
-                    color: white;
-                    padding: 20px;
-                    border-radius: 5px;
-                    text-align: center;
-                    font-size: 24px;
-                    font-weight: bold;
-                '>
+                <div class='letter-box' style='background-color: {colors[status]};'>
                     {letter}
                 </div>
                 """,
